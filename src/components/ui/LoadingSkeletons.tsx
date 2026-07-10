@@ -20,11 +20,28 @@ return (
     </article>
 );
 }
+
 export function GroupGridSkeleton() {
 return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
     {Array.from({ length: 12 }).map((_, idx) => (
         <GroupCardSkeleton key={idx} />
+    ))}
+    </div>
+);
+}
+
+export function MatchListSkeleton() {
+return (
+    <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+    {Array.from({ length: 6 }).map((_, i) => (
+        <article key={i} className="panel p-4">
+        <div className="mb-3 h-4 w-32 animate-pulse rounded bg-border" />
+        <div className="space-y-3">
+            <div className="h-4 w-full animate-pulse rounded bg-border" />
+            <div className="h-4 w-full animate-pulse rounded bg-border" />
+        </div>
+        </article>
     ))}
     </div>
 );

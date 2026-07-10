@@ -6,23 +6,15 @@ import type {
   StandingsResponse,
 } from './types';
 const BASE_URL = import.meta.env.VITE_FD_BASE_URL as string | undefined;
-const API_KEY = import.meta.env.VITE_FD_API_KEY as string | undefined;
-function assertEnv(): { baseUrl: string; apiKey: string } {
+function assertEnv(): { baseUrl: string } {
   if (!BASE_URL) {
     throw new Error('Missing VITE_FD_BASE_URL in environment variables.');
   }
-  if (!API_KEY) {
-    throw new Error('Missing VITE_FD_API_KEY in environment variables.');
-  }
-  return { baseUrl: BASE_URL, apiKey: API_KEY };
+  return { baseUrl: BASE_URL };
 }
 async function get<T>(path: string): Promise<T> {
-  const { baseUrl, apiKey } = assertEnv();
-  const response = await fetch(`${baseUrl}${path}`, {
-    headers: {
-      'X-Auth-Token': apiKey,
-    },
-  });
+  const { baseUrl } = assertEnv();
+  const response = await fetch(`${baseUrl}${path}`);
   if (!response.ok) {
     throw new Error(
       `football-data.org API error: ${response.status} ${response.statusText} 
