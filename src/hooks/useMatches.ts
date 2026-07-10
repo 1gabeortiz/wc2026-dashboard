@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import footballDataApi from '../api/footballData.ts';
+import { footballDataApi } from '../api/footballData';
 import type { MatchStage, MatchStatus } from '../api/types';
 interface UseMatchesOptions {
 status?: MatchStatus;

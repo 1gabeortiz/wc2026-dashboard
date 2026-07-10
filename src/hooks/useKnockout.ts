@@ -1,10 +1,10 @@
 import { useQueries } from '@tanstack/react-query';
-import { footballDataApi } from '../api/footballData.ts';
+import { footballDataApi } from '../api/footballData';
 import type { Match, MatchStage } from '../api/types';
 type KnockoutStage = Exclude<MatchStage, 'GROUP_STAGE'>;
 const KNOCKOUT_STAGES: KnockoutStage[] = [
-  'ROUND_OF_32',
-  'ROUND_OF_16',
+  'LAST_32',
+  'LAST_16',
   'QUARTER_FINALS',
   'SEMI_FINALS',
   'THIRD_PLACE',
@@ -27,8 +27,8 @@ export function useKnockout() {
       return acc;
     },
     {
-      ROUND_OF_32: [],
-      ROUND_OF_16: [],
+      LAST_32: [],
+      LAST_16: [],
       QUARTER_FINALS: [],
       SEMI_FINALS: [],
       THIRD_PLACE: [],

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { footballDataApi } from '../api/footballData.ts';
+import { footballDataApi } from '../api/footballData';
 export const TOP_SCORERS_QUERY_KEY = ['wc2026', 'top-scorers'] as const;
 export function useTopScorers() {
 return useQuery({
