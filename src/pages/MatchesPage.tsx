@@ -5,39 +5,38 @@ import MatchList from '../components/matches/MatchList';
 import ErrorCard from '../components/ui/ErrorCard';
 import { MatchListSkeleton } from '../components/ui/LoadingSkeletons';
 import { useMatches } from '../hooks/useMatches';
+import { useLiveMatches } from '../hooks/useLiveMatches';
 import { isMatchLive, isMatchResult, isMatchUpcoming } from '../utils/matchUtils';
-
 type MatchFilter = 'all' | 'live' | 'results' | 'upcoming';
-
 const FILTERS: { key: MatchFilter; label: string }[] = [
   { key: 'all', label: 'All' },
   { key: 'live', label: 'Live' },
   { key: 'results', label: 'Results' },
   { key: 'upcoming', label: 'Upcoming' },
 ];
-
 function sortByKickoff(matches: Match[]) {
   return [...matches].sort(
     (a, b) => new Date(a.utcDate).getTime() - new Date(b.utcDate).getTime()
   );
 }
-
 export default function MatchesPage() {
   const [activeFilter, setActiveFilter] = useState<MatchFilter>('all');
-
-  const { data, isLoading, isError, error } = useMatches({
-    refetchInterval: activeFilter === 'live' ? 30 * 1000 : false,
-  });
-
-  const allMatches = useMemo(() => sortByKickoff(data?.matches ?? []), [data?.matches]);
-
+  const allMatchesQuery = useMatches();
+  const liveMatchesQuery = useLiveMatches();
+  const allMatches = useMemo(
+    () => sortByKickoff(allMatchesQuery.data?.matches ?? []),
+    [allMatchesQuery.data?.matches]
+  );
+  const liveMatches = liveMatchesQuery.data?.matches ?? [];
   const filteredMatches = useMemo(() => {
-    if (activeFilter === 'live') return allMatches.filter((m) => isMatchLive(m.status));
+    if (activeFilter === 'live') return sortByKickoff(liveMatches);
     if (activeFilter === 'results') return allMatches.filter((m) => isMatchResult(m.status));
     if (activeFilter === 'upcoming') return allMatches.filter((m) => isMatchUpcoming(m.status));
     return allMatches;
-  }, [activeFilter, allMatches]);
-
+  }, [activeFilter, allMatches, liveMatches]);
+  const isLoading = allMatchesQuery.isLoading || (activeFilter === 'live' && liveMatchesQuery.isLoading);
+  const isError = allMatchesQuery.isError || liveMatchesQuery.isError;
+  const error = allMatchesQuery.error ?? liveMatchesQuery.error;
   return (
     <section className="space-y-4">
       <div>
@@ -46,9 +45,7 @@ export default function MatchesPage() {
           World Cup Match Center
         </h2>
       </div>
-
-      {allMatches.length > 0 && <LiveFeed matches={allMatches} />}
-
+      {liveMatches.length > 0 && <LiveFeed matches={liveMatches.filter((m) => isMatchLive(m.status))} />}
       <div className="flex flex-wrap gap-2">
         {FILTERS.map((filter) => {
           const isActive = activeFilter === filter.key;
@@ -68,16 +65,13 @@ export default function MatchesPage() {
           );
         })}
       </div>
-
       {isLoading && <MatchListSkeleton />}
-
       {isError && (
         <ErrorCard
           title="Matches unavailable"
           message={error instanceof Error ? error.message : 'Could not load matches.'}
         />
       )}
-
       {!isLoading && !isError && <MatchList matches={filteredMatches} />}
     </section>
   );

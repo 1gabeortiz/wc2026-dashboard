@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { footballDataApi } from '../api/footballData';
+import { footballDataApi } from '../api/footballData.ts';
 export const STANDINGS_QUERY_KEY = ['wc2026', 'standings'] as const;
 export function useStandings() {
 return useQuery({
