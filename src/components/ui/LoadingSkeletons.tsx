@@ -46,3 +46,15 @@ return (
     </div>
 );
 }
+
+export function ScorersTableSkeleton() {
+return (
+    <div className="panel p-4">
+    <div className="space-y-3">
+        {Array.from({ length: 10 }).map((_, i) => (
+        <div key={i} className="h-6 w-full animate-pulse rounded bg-border" />
+        ))}
+    </div>
+    </div>
+);
+}
