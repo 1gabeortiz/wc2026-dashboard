@@ -13,7 +13,7 @@ A live dashboard for the 2026 FIFA World Cup built with React + TypeScript, powe
 
 ## Preview
 
-Add media files under `docs/media/` and update these paths:
+****add media files under `docs/media/` and update these paths:****
 
 ![Dashboard Overview](docs/media/dashboard-overview.png)
 ![Matches Page](docs/media/matches-page.png)
