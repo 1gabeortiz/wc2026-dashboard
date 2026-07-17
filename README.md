@@ -1,75 +1,71 @@
-# React + TypeScript + Vite
+# WC2026 Dashboard
+Live World Cup 2026 dashboard built with React + TypeScript.
+The app integrates real football-data.org APIs to display group standings, match
+center updates, knockout bracket progression, and top scorers in a polished,
+dark-themed interface.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Live Demo
+- Add after deployment: `https://your-vercel-url.vercel.app`
 
-Currently, two official plugins are available:
+## Features
+- Live group standings for all groups
+- Match center with filters (All / Live / Results / Upcoming)
+- Live status indicators and score updates
+- Knockout bracket organized by stage
+- Top scorers leaderboard
+- Loading skeletons and graceful error states
+- API caching and server-state management with TanStack Query
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
+- React 18 + TypeScript
+- Vite
+- React Router
+- TanStack Query
+- Tailwind CSS
+- Vitest + Testing Library
+- ESLint
+- GitHub Actions CI
+- Vercel
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+## Local Setup
+```bash
+git clone https://github.com/YOUR_USERNAME/wc2026-dashboard.git
+cd wc2026-dashboard
+npm install
+cp .env.example .env.local
+```
+Add your football-data API key in `.env.local`:
+```bash
+VITE_FD_API_KEY=your_key_here
+VITE_FD_BASE_URL=/api
+```
+Run locally:
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+## Testing and Quality Checks
+```bash
+npm run lint
+npm run typecheck
+npm run test
+npm run build
 ```
+
+## CI
+GitHub Actions runs on pushes and PRs to `main`:
+- lint
+- typecheck
+- tests
+
+## Deployment Notes (Vercel)
+- Add `VITE_FD_API_KEY` in Vercel Environment Variables
+- Ensure SPA routing works through `vercel.json` rewrites
+- Redeploy after env updates
+
+## What I Learned
+- Modeling external API responses with TypeScript interfaces
+- Building a dedicated API service layer for maintainability
+- Managing server state and caching with TanStack Query
+- Implementing robust loading/error UX patterns
+- Using branch-based workflow, CI checks, and production deployment practices
